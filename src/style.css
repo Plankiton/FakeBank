@@ -1,0 +1,98 @@
+html {
+    width: 100%;
+    height: 100%;
+
+    background: #373737;
+    color: #f3f3f3;
+    /*background-image: url("https://images.unsplash.com/photo-1465146633011-14f8e0781093?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3450&q=80");*/
+}
+
+html, body, form, section, #root {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    align-items: center;
+    justify-content: center;
+}
+
+section {
+    width: 80%;
+}
+
+#login {
+    width: 60% !important;
+}
+
+form {
+    padding: 10%;
+    background: #f4f4f4aa;
+    color: #373737;
+    border-radius: 2px;
+}
+input, #conta {
+    width: 100%;
+    margin: 5px;
+    padding: 5px;
+    border: none;
+    border-radius: 2px;
+    background: #ffffff99;
+    color: #373737;
+}
+
+#conta {
+    padding: 5%;
+}
+
+.operation {
+    background: #ffffff66;
+    padding: 10px;
+    border-radius: 2px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.money {
+    color: #229955;
+}
+
+.date {
+    color: #444;
+}
+
+input:hover {
+    background: #ffffffdd;
+}
+
+button, input[type=submit]:active {
+    background-color: #C03456;
+    color: #ffffffdd;
+}
+
+.sign-up {
+    color: #C03456;
+}
+
+h3.title {
+    display:flex;
+    justify-content: space-between;
+}
+
+h3.span {
+    width: 100%;
+}
+
+h3.title img {
+    height: 50% !important;
+}
+
+.sign-up, .date {
+    text-decoration: none;
+    text-align: right;
+    width: 100%;
+    padding: 3px;
+    margin: 3px;
+}
+
+.date {
+    padding-right: 5px;
+}
