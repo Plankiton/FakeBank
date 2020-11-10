@@ -2,13 +2,13 @@ import {useState} from 'react';
 import axios from 'axios';
 import './style.css';
 
-var api_url = 'http://localhost/api';
+var api_url = 'http://localhost:5000/api';
 var down = 'https://img.icons8.com/metro/26/000000/down--v1.png';
 
 var h = {
     headers: {
-        'Control-Allow-Headers': 'Authorization',
-        'Access-Control-Allow-Origin': '*',
+        //'Control-Allow-Headers': 'Authorization',
+        //'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json'
     }
 }
@@ -23,7 +23,7 @@ function App() {
 
                 var user = e.target[0].value;
                 var pass = e.target[1].value;
-                axios.get(`${api_url}/Client/${pass}/${user}`, h)
+                axios.get(`${api_url}/Client/${pass}/${user}`)
                     .then((r) => {
                         console.log(r);
 
@@ -33,12 +33,12 @@ function App() {
                             balance: r.data.balance
                         });
                     }).catch((e) => {
-                        console.log(e);
+                        console.log(`${api_url}/Client/${pass}/${user}`, e);
 
                         axios.post(`${api_url}/Client`, {
                             name: user,
                             password: pass
-                        }, h).then((r) => {
+                        }).then((r) => {
                             console.log(r);
 
                             setUser({
