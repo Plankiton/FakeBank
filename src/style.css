@@ -37,14 +37,14 @@ form {
     color: #373737;
     border-radius: 2px;
 }
+
 input, #conta {
-    width: 100%;
-    margin: 5px;
-    padding: 5px;
     border: none;
     border-radius: 2px;
     background: #ffffff99;
     color: #373737;
+    margin: 5px;
+    padding: 5px;
 }
 
 #conta {
@@ -57,7 +57,8 @@ input, #conta {
     border-radius: 2px;
     margin-top: 5px;
     margin-bottom: 5px;
-    width: 100%;
+    width: 400px;
+    overflow-x: wrap;
 }
 
 .money {
@@ -68,11 +69,11 @@ input, #conta {
     color: #444;
 }
 
-input:hover {
+button:hover, input:hover {
     background: #ffffffdd;
 }
 
-button, input[type=submit]:active {
+button:active, input[type=submit]:active {
     background-color: #C03456;
     color: #ffffffdd;
 }
@@ -142,7 +143,7 @@ button.title:active {
     justify-content: center !important;
 }
 
-input[type=submit] {
+input {
     width: 100% !important;
 }
 
@@ -154,4 +155,32 @@ input[type=submit] {
     display: flex;
     flex-direction: column;
     align-items: center !important;
+}
+
+.id {
+    color: #C03456;
+}
+
+.balance {
+    display: flex;
+    flex-direction: row;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+button.reload {
+    width: 20px !important;
+    height: 20px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center !important;
+    justify-content: center !important;
+    border: none;
+    border-radius: 2px;
+    background: #ffffff99;
+    color: #373737;
+}
+
+button.reload img {
+    height: 100%;
 }
