@@ -1,9 +1,8 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import axios from 'axios';
 import './style.css';
 
 var api_url = 'http://localhost:5000/api';
-var down = 'https://img.icons8.com/metro/26/000000/down--v1.png';
 var conf = {
     headers: {
         'Control-Allow-Headers': 'Authorization',
@@ -25,14 +24,47 @@ function getType(t) {
     }
 }
 
+function sleep(s) {
+  return new Promise(
+    resolve => setTimeout(resolve, s*1000)
+  );
+}
+
 function App() {
     const [user, setUser] = useState(null);
     const [history, setHistory] = useState([]);
-    const [loadHistory, setLoadHistory] = useState(false);
+
+    useEffect(() => {
+        async function updateData(){
+            if (user){
+
+                var r = await axios.get(`${api_url}/Client/byname/${user.password}/${user.name}`, conf)
+
+                if (r.data.balance !== user.balance){
+                    setUser({
+                        id: r.data.id,
+                        name: r.data.name,
+                        password: user.password,
+                        balance: r.data.balance,
+                    });
+
+                    r = await axios.get(`${api_url}/Operation/${user.password}/${user.id}`, conf);
+                    if (r.data !== history){
+                        setHistory(r.data);
+                        console.log(r.data);
+                    }
+                }
+                sleep(1);
+
+            }
+        }
+
+        updateData();
+    });
 
     return user == null ? (
         <div id="login">
-            <form onSubmit={(e) => {
+            <form className="login" onSubmit={(e) => {
                 e.preventDefault();
 
                 var name = e.target[0].value;
@@ -83,29 +115,67 @@ function App() {
         <div id="conta">
             <h1 className="user">{user.name}</h1>
             <p className="balance">Saldo: <span className="money">{user.balance.toFixed(2)} reais</span></p>
+
+            <form className="function" onSubmit={(e) => {
+                e.preventDefault();
+                console.log(parseFloat(e.target[0].value));
+                axios.post(`${api_url}/TakeIn`, {
+                    clientid: user.id,
+                    value: parseFloat(e.target[0].value),
+                    password: user.password,
+                }, conf).then((r) => {
+                    console.log(r);
+                    var h = user;
+                    h.balance = parseFloat(r.data.value);
+                    setUser(h);
+                }).catch((e) => {
+                    console.log(e);
+                });
+                }}>
+                <label htmlFor="takein">Depositar dinheiro:</label>
+                <input type="text" name="takein" id="takein" placeholder="Valor do deposito"/>
+                <input type="submit" value="Depositar"/>
+            </form>
+            <form className="function" onSubmit={(e) => {
+                e.preventDefault();
+                console.log(parseFloat(e.target[0].value));
+                axios.post(`${api_url}/TakeOut`, {
+                    clientid: user.id,
+                    password: user.password,
+                    value: parseFloat(e.target[0].value)
+                }, conf).then((r) => {
+                    console.log(r);
+                }).catch((e) => {
+                    console.log(e);
+                });
+                }}>
+                <label htmlFor="takeout">Sacar dinheiro:</label>
+                <input type="text" name="takeout" id="takeout" placeholder="Valor do saque"/>
+                <input type="submit" value="Sacar"/>
+            </form>
+            <form className="function" onSubmit={(e) => {
+                e.preventDefault();
+                console.log(parseFloat(e.target[0].value));
+                axios.post(`${api_url}/Trade`, {
+                    senderid: user.id,
+                    password: user.password,
+                    receiverid: parseInt(e.target[1].value),
+                    value: parseFloat(e.target[0].value)
+                }, conf).then((r) => {
+                    console.log(r);
+                }).catch((e) => {
+                    console.log(e);
+                });
+                }}>
+                <label htmlFor="trade">Transferir dinheiro:</label>
+                <input type="text" name="trade" id="trade" placeholder="Valor da transferencia"/>
+                <label htmlFor="receiver">Destinário:</label>
+                <input type="text" name="receiver" id="receiver" placeholder="Username do receiver"/>
+                <input type="submit" value="Transferencia"/>
+            </form>
+
             <div>
-                <button className="title" onClick={() => {
-                    if (loadHistory)
-                        setLoadHistory(false);
-                    else setLoadHistory(true);
-                    console.log(loadHistory);
-
-                    var h = [];
-                    if (loadHistory)
-                        axios.get(`${api_url}/Operation/${user.password}/${user.id}`, conf).then((r) => {
-                            h = r.data;
-                            console.log(h);
-
-                            setHistory(h);
-                        });
-
-                    else {
-                        console.log('NULLing');
-                        setHistory(h);
-                    }
-
-                    console.log(user);
-                }}><h3 className="title">Extrato da conta <span><img alt="down" src={down}/></span></h3></button>
+                <h3 className="title">Extrato da conta</h3>
 
                 <div className="operation-list">{
                     history.map((o) => {
