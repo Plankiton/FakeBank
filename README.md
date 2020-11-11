@@ -1,6 +1,6 @@
 # Cidade Alta Challenge
 
-Para rodar este projeto você necessitará do [Back-End](https://github.com/plankiton/cidadealtachallenge) rodando em sua máquina, para isso clone o mesmo e depois rode os seguintes comandos:
+Para rodar este projeto você necessitará do [Back-End](https://github.com/plankiton/cidadealta.back) rodando em sua máquina, para isso clone o mesmo e depois rode os seguintes comandos:
 
 ```sh
 $ cd /pasta/do/back-end
