@@ -38,23 +38,24 @@ function App() {
         async function updateData(){
             if (user){
 
-                axios.get(`${api_url}/Client/${user.password}/${user.id}`, conf).then((r) => {
-                    console.log(r);
-                    if (r.data.balance !== user.balance){
-                        setUser({
-                            id: r.data.id,
-                            name: r.data.name,
-                            password: user.password,
-                            balance: r.data.balance,
-                        });
+                var r = await axios.get(`${api_url}/Client/byname/${user.password}/${user.name}`, conf)
+                console.log(r);
+                if (r.data.balance !== user.balance){
+                    setUser({
+                        id: r.data.id,
+                        name: r.data.name,
+                        password: user.password,
+                        balance: r.data.balance,
+                    });
 
-                        axios.get(`${api_url}/Operation/${user.password}/${user.id}`, conf).then((r) => {
-                            if (r.data !== history){
-                                setHistory(r.data);
-                                console.log(r.data);
-                            }
-                        });
-                    }});
+                    r = await axios.get(`${api_url}/Operation/${user.password}/${user.id}`, conf);
+                    if (r.data !== history){
+                        setHistory(r.data);
+                        console.log(r.data);
+                    }
+                }
+
+                sleep(1);
 
             }
         }
@@ -124,16 +125,10 @@ function App() {
                     value: parseFloat(e.target[0].value),
                     password: user.password,
                 }, conf).then((r) => {
-                    axios.get(`${api_url}/Client/${user.password}/${user.id}`, conf).then((r) => {
-                        console.log(r);
-                        if (r.data.balance !== user.balance){
-                            setUser({
-                                id: r.data.id,
-                                name: r.data.name,
-                                password: user.password,
-                                balance: r.data.balance,
-                            });
-                        }});
+                    console.log(r);
+                    var h = user;
+                    h.balance = parseFloat(r.data.value);
+                    setUser(h);
                 }).catch((e) => {
                     console.log(e);
                 });
@@ -150,16 +145,7 @@ function App() {
                     password: user.password,
                     value: parseFloat(e.target[0].value)
                 }, conf).then((r) => {
-                    axios.get(`${api_url}/Client/${user.password}/${user.id}`, conf).then((r) => {
-                        console.log(r);
-                        if (r.data.balance !== user.balance){
-                            setUser({
-                                id: r.data.id,
-                                name: r.data.name,
-                                password: user.password,
-                                balance: r.data.balance,
-                            });
-                        }});
+                    console.log(r);
                 }).catch((e) => {
                     console.log(e);
                 });
@@ -177,16 +163,7 @@ function App() {
                     receiverid: parseInt(e.target[1].value),
                     value: parseFloat(e.target[0].value)
                 }, conf).then((r) => {
-                    axios.get(`${api_url}/Client/${user.password}/${user.id}`, conf).then((r) => {
-                        console.log(r);
-                        if (r.data.balance !== user.balance){
-                            setUser({
-                                id: r.data.id,
-                                name: r.data.name,
-                                password: user.password,
-                                balance: r.data.balance,
-                            });
-                        }});
+                    console.log(r);
                 }).catch((e) => {
                     console.log(e);
                 });
