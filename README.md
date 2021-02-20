@@ -1,4 +1,6 @@
-# Cidade Alta Challenge
+# Fake Bank
+
+![Fake Bank Logo](./src/logo.svg)
 
 Para rodar este projeto você necessitará do [Back-End](https://github.com/plankiton/cidadealta.back) rodando em sua máquina, para isso clone o mesmo e depois rode os seguintes comandos:
 
